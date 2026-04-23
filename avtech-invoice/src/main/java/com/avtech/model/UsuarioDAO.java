@@ -33,36 +33,55 @@ public class UsuarioDAO {
         }
     }
 
+   
+    // AUTENTICACIÓN SEGURA
+   
     public static Usuario autenticar(String email, String password) {
-        String sql = "SELECT * FROM Usuario WHERE email = ? AND password = ?";
+        // Ahora solo buscamos al usuario por su email
+        String sql = "SELECT * FROM Usuario WHERE email = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
+            
             if (rs.next()) {
-                return new Usuario(rs.getInt("id_usuario"), rs.getString("email"), rs.getString("password"),
-                    rs.getString("google_id"), rs.getString("nombre_fiscal"), rs.getString("nif_cif"),
-                    rs.getString("domicilio_fiscal"), rs.getString("iban"), rs.getDouble("porcentaje_iva"),
-                    rs.getDouble("porcentaje_irpf"), rs.getString("ruta_logo"));
+                String hashGuardado = rs.getString("password");
+                
+                // BCrypt compara la contraseña tecleada con el hash cifrado de la base de datos
+                if (org.mindrot.jbcrypt.BCrypt.checkpw(password, hashGuardado)) {
+                    return new Usuario(rs.getInt("id_usuario"), rs.getString("email"), rs.getString("password"),
+                        rs.getString("google_id"), rs.getString("nombre_fiscal"), rs.getString("nif_cif"),
+                        rs.getString("domicilio_fiscal"), rs.getString("iban"), rs.getDouble("porcentaje_iva"),
+                        rs.getDouble("porcentaje_irpf"), rs.getString("ruta_logo"));
+                }
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
+
     
-    public static boolean registrar(String email, String password, String nombreFiscal, String nifCif, String domicilio, String iban, double iva, double irpf) {
+    // REGISTRO SEGURO CON ENCRIPTACIÓN
+        public static boolean registrar(String email, String password, String nombreFiscal, String nifCif, String domicilio, String iban, double iva, double irpf) {
         String sql = "INSERT INTO Usuario (email, password, nombre_fiscal, nif_cif, domicilio_fiscal, iban, porcentaje_iva, porcentaje_irpf) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            // Creamos el Hash seguro antes de guardarlo en SQLite
+            String hashFuerte = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+            
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
+            pstmt.setString(2, hashFuerte); // Guardamos la huella matemática, NO el texto
             pstmt.setString(3, nombreFiscal);
             pstmt.setString(4, nifCif);
             pstmt.setString(5, domicilio);
             pstmt.setString(6, iban);
             pstmt.setDouble(7, iva);
             pstmt.setDouble(8, irpf);
+            
             return pstmt.executeUpdate() > 0;
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
