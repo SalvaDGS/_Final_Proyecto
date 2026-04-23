@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avtech.view.DashboardController">
+    <left>
+        <VBox spacing="15" style="-fx-background-color: #f4f4f4; -fx-padding: 15;">
+            
+            <Label text="AVTech" textFill="#555555">
+                <font><Font name="System Bold" size="18.0" /></font>
+            </Label>
+            
+            <Button fx:id="btnGoogleLogin" text="Google Login" prefWidth="120" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            
+            <Separator />
+            
+            <Button fx:id="btnClientes" text="Clientes" prefWidth="120"/>
+            <Button fx:id="btnFacturas" text="Facturas" prefWidth="120"/>
+            
+            <Separator />
+            
+            <Label text="Período a Facturar:" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+            
+            <ComboBox fx:id="comboMes" prefWidth="120">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Enero" />
+                        <String fx:value="Febrero" />
+                        <String fx:value="Marzo" />
+                        <String fx:value="Abril" />
+                        <String fx:value="Mayo" />
+                        <String fx:value="Junio" />
+                        <String fx:value="Julio" />
+                        <String fx:value="Agosto" />
+                        <String fx:value="Septiembre" />
+                        <String fx:value="Octubre" />
+                        <String fx:value="Noviembre" />
+                        <String fx:value="Diciembre" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            
+            <ComboBox fx:id="comboAnio" prefWidth="120" />
+            
+            <Button fx:id="btnEventos" text="Buscar Eventos" prefWidth="120" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentArea">
+            <Label text="Bienvenido al Gestor de Facturación AVTech" />
+        </StackPane>
+    </center>
+</BorderPane>

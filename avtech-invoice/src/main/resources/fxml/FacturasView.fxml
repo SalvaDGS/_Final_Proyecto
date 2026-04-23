@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox spacing="15" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avtech.view.FacturasController">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <VBox spacing="10" prefWidth="200" style="-fx-background-color: #f9f9f9; -fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <Label text="Filtrar por Cliente" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+        <ListView fx:id="listaClientesFiltro" VBox.vgrow="ALWAYS"/>
+    </VBox>
+
+    <VBox spacing="10" HBox.hgrow="ALWAYS">
+        <Label text="Historial de Facturas Emitidas" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        
+        <TableView fx:id="tablaFacturas" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colNumero" text="Nº Factura" prefWidth="150"/>
+                <TableColumn fx:id="colCliente" text="Cliente" prefWidth="180"/>
+                <TableColumn fx:id="colFecha" text="Fecha Emisión" prefWidth="100"/>
+                <TableColumn fx:id="colTotal" text="Total (€)" prefWidth="100"/>
+            </columns>
+        </TableView>
+        
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Label fx:id="lblRuta" textFill="gray" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="btnAbrirPdf" text="Abrir PDF Original" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+        </HBox>
+    </VBox>
+</HBox>

@@ -1,0 +1,5 @@
+.DS_Store
+.metadata/
+RemoteSystemsTempFiles/
+avtech-invoice/tokens
+avtech-invoice/src/main/resources/credentials.json
