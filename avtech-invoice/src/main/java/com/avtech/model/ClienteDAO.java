@@ -35,7 +35,6 @@ public class ClienteDAO {
 
     /**
      * Inserta un nuevo cliente desde la interfaz gráfica.
-     * He cambiado el nombre a "insertar" para que coincida con el controlador.
      */
     public static boolean insertar(String nombreCalendario, String razonSocial, String cifNif, String direccion, double tarifa) {
         String sql = "INSERT INTO Clientes (nombre_calendario, razon_social, cif_nif, direccion, tarifa_jornada) VALUES (?, ?, ?, ?, ?)";
@@ -80,7 +79,6 @@ public class ClienteDAO {
 
     /**
      * Busca el ID del cliente utilizando el nombre del calendario de Google.
-     * (Corregido: Antes ponía nombre_fiscal, ahora busca en nombre_calendario).
      */
     public static int obtenerIdPorNombre(String nombreCalendario) {
         String sql = "SELECT id_cliente FROM Clientes WHERE nombre_calendario = ?";

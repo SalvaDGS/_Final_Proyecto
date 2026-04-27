@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-// Importamos nuestros DAOs para inicializar la base de datos
+// Importamos DAOs para inicializar la base de datos
 import com.avtech.model.UsuarioDAO;
 import com.avtech.model.ClienteDAO;
 import com.avtech.model.FacturaDAO;
@@ -16,7 +16,7 @@ public class MainApp extends Application {
 
     /**
      * El método init() se ejecuta ANTES de que se cargue la interfaz gráfica.
-     * Es el lugar perfecto para preparar nuestra base de datos SQLite.
+     * Es el lugar perfecto para preparar la base de datos SQLite.
      */
     @Override
     public void init() throws Exception {
@@ -48,7 +48,7 @@ public class MainApp extends Application {
             primaryStage.setTitle("AVTech Invoice");
             primaryStage.setScene(scene);
             
-            // Centramos la ventana en la pantalla (Opcional, pero queda muy bien)
+            // Centramos la ventana en la pantalla (Opcional)
             primaryStage.centerOnScreen();
 
             primaryStage.show();

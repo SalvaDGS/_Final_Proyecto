@@ -13,6 +13,7 @@ public class Usuario {
     private double porcentajeIrpf;
     private String rutaLogo;
 
+    // Constructor
     public Usuario(int idUsuario, String email, String password, String googleId, String nombreFiscal, 
                    String nifCif, String domicilioFiscal, String iban, double porcentajeIva, double porcentajeIrpf, String rutaLogo) {
         this.idUsuario = idUsuario;

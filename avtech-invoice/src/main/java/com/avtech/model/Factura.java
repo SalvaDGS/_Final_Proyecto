@@ -9,7 +9,8 @@ public class Factura {
     private double subtotal;
     private double totalFinal;
     private String rutaPdf;
-
+    
+    // Constructor
     public Factura(int idFactura, String numeroFactura, String nombreCliente, String fechaEmision, 
                    int totalDias, double subtotal, double totalFinal, String rutaPdf) {
         this.idFactura = idFactura;

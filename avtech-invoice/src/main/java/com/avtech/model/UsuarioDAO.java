@@ -37,7 +37,7 @@ public class UsuarioDAO {
     // AUTENTICACIÓN SEGURA
    
     public static Usuario autenticar(String email, String password) {
-        // Ahora solo buscamos al usuario por su email
+        //buscamos al usuario por su email
         String sql = "SELECT * FROM Usuario WHERE email = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -138,5 +138,63 @@ public class UsuarioDAO {
             pstmt.setString(2, email);
             pstmt.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
+    }
+    /**
+     * Actualiza los datos del usuario. Si la contraseña viene vacía, no se cambia.
+     */
+    public static boolean actualizar(int idUsuario, String email, String password, String nombreFiscal, String nifCif, String domicilio, String iban, double iva, double irpf) {
+        boolean cambiarPassword = (password != null && !password.trim().isEmpty());
+        String sql;
+        
+        if (cambiarPassword) {
+            sql = "UPDATE Usuario SET email = ?, password = ?, nombre_fiscal = ?, nif_cif = ?, domicilio_fiscal = ?, iban = ?, porcentaje_iva = ?, porcentaje_irpf = ? WHERE id_usuario = ?";
+        } else {
+            sql = "UPDATE Usuario SET email = ?, nombre_fiscal = ?, nif_cif = ?, domicilio_fiscal = ?, iban = ?, porcentaje_iva = ?, porcentaje_irpf = ? WHERE id_usuario = ?";
+        }
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            int paramIndex = 1;
+            pstmt.setString(paramIndex++, email);
+            
+            if (cambiarPassword) {
+                // Si ha escrito una contraseña nueva, la encriptamos antes de guardarla
+                String hashFuerte = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+                pstmt.setString(paramIndex++, hashFuerte);
+            }
+            
+            pstmt.setString(paramIndex++, nombreFiscal);
+            pstmt.setString(paramIndex++, nifCif);
+            pstmt.setString(paramIndex++, domicilio);
+            pstmt.setString(paramIndex++, iban);
+            pstmt.setDouble(paramIndex++, iva);
+            pstmt.setDouble(paramIndex++, irpf);
+            pstmt.setInt(paramIndex, idUsuario);
+            
+            return pstmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar el perfil de usuario.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Elimina permanentemente la cuenta de usuario.
+     */
+    public static boolean eliminar(int idUsuario) {
+        String sql = "DELETE FROM Usuario WHERE id_usuario = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, idUsuario);
+            return pstmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

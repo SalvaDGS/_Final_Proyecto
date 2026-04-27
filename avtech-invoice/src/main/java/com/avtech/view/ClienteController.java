@@ -23,7 +23,7 @@ public class ClienteController {
     @FXML private TextField txtCifNif;
     @FXML private TextField txtDireccion;
     @FXML private TextField txtTarifa;
-    
+    // --- ELEMENTOS BOTONES ---
     @FXML private Button btnGuardar;
     @FXML private Button btnLimpiar;
     @FXML private Button btnEliminar;
@@ -157,7 +157,9 @@ public class ClienteController {
             }
         }
     }
-
+    /**
+     * Alertas personalizadas.
+     */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

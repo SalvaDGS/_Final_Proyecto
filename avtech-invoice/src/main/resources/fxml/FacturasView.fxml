@@ -25,7 +25,8 @@
         
         <HBox alignment="CENTER_RIGHT" spacing="10">
             <Label fx:id="lblRuta" textFill="gray" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-            <Button fx:id="btnAbrirPdf" text="Abrir PDF Original" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+            <Button fx:id="btnEliminarFactura" text="Eliminar Factura" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+            <Button fx:id="btnAbrirPdf" text="Abrir PDF Original" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
         </HBox>
     </VBox>
 </HBox>

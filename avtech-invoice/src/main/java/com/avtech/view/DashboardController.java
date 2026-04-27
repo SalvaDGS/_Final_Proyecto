@@ -19,6 +19,7 @@ public class DashboardController {
     @FXML private Button btnClientes;
     @FXML private Button btnEventos;
     @FXML private Button btnFacturas;
+    @FXML private Button btnUsuario;
     // --- CAMPO (Google) ---
     @FXML private Button btnGoogleLogin;   // Botón "Iniciar sesión con Google"
     @FXML private Button btnLogin; 
@@ -312,5 +313,23 @@ public class DashboardController {
                 mostrarAlerta(Alert.AlertType.ERROR,"Error", "No se pudo cargar la vista de Facturas.");
             }
         });
+        // ========================================================
+        // 4. LÓGICA DEL BOTÓN: MI PERFIL (USUARIO)
+        // ========================================================
+        if (btnUsuario != null) {
+            btnUsuario.setOnAction(e -> {
+                try {
+                    System.out.println("Abriendo pestaña de Mi Perfil...");
+                    javafx.scene.Parent view = javafx.fxml.FXMLLoader.load(getClass().getResource("/fxml/UsuarioView.fxml"));
+                    contentArea.getChildren().clear();
+                    contentArea.getChildren().add(view);
+                } catch (Exception ex) {
+                    System.err.println("❌ Error al cargar la vista de Usuario:");
+                    ex.printStackTrace();
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo cargar la vista de Perfil.");
+                }
+            });
+        }
     }
+    
 }

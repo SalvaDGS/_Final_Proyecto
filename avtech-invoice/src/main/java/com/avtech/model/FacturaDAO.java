@@ -96,4 +96,23 @@ public class FacturaDAO {
         }
         return lista;
     }
+    /**
+     * Elimina una factura de la base de datos según su ID.
+     */
+    public static boolean eliminarFactura(int idFactura) {
+        String sql = "DELETE FROM Facturas WHERE id_factura = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, idFactura);
+            int filasAfectadas = pstmt.executeUpdate();
+            return filasAfectadas > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error al eliminar la factura de la base de datos.");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

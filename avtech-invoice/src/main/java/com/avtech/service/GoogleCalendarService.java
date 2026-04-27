@@ -29,7 +29,7 @@ public class GoogleCalendarService {
     /**
      * Obtiene los eventos de un MES y AÑO específicos, agrupados por calendario (Cliente).
      * @param mes El mes a facturar (1-12)
-     * @param anio El año a facturar (ej: 2026)
+     * @param anio El año a facturar 
      */
     public static java.util.Map<String, java.util.List<Event>> obtenerEventosPorMesAno(int mes, int anio) throws Exception {
         Calendar service = getCalendarService();

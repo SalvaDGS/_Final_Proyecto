@@ -6,8 +6,6 @@ import java.sql.Statement;
 
 public class OpcionesDAO {
 
-    /**
-     *      */
     public static void crearTabla() {
         String sql = "CREATE TABLE IF NOT EXISTS Opciones ("
                    + "id_opcion INTEGER PRIMARY KEY AUTOINCREMENT, "

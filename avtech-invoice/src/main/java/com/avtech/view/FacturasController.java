@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.awt.Desktop;
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FacturasController {
@@ -24,6 +25,8 @@ public class FacturasController {
     @FXML private TableColumn<Factura, Double> colTotal;
     
     @FXML private Button btnAbrirPdf;
+    // NUEVO BOTÓN
+    @FXML private Button btnEliminarFactura;
     @FXML private Label lblRuta;
 
     private ObservableList<Factura> todasLasFacturas;
@@ -51,8 +54,10 @@ public class FacturasController {
             }
         });
 
-        // 5. Botón para abrir el PDF real
+        // 5. Botones de acción
         btnAbrirPdf.setOnAction(e -> abrirDocumentoPdf());
+        
+        btnEliminarFactura.setOnAction(e -> eliminarFacturaSeleccionada());
     }
 
     private void cargarDatos() {
@@ -93,13 +98,13 @@ public class FacturasController {
         Factura seleccionada = tablaFacturas.getSelectionModel().getSelectedItem();
         
         if (seleccionada == null) {
-            mostrarAlerta("Atención", "Selecciona una factura de la tabla para abrirla.");
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Atención", "Selecciona una factura de la tabla para abrirla.");
             return;
         }
 
         String ruta = seleccionada.getRutaPdf();
         if (ruta == null || ruta.isEmpty()) {
-            mostrarAlerta("Error", "Esta factura no tiene un archivo PDF vinculado.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Esta factura no tiene un archivo PDF vinculado.");
             return;
         }
 
@@ -109,16 +114,68 @@ public class FacturasController {
                 // Esto abre el archivo con el programa nativo de tu sistema operativo
                 Desktop.getDesktop().open(archivoPdf);
             } else {
-                mostrarAlerta("Archivo no encontrado", "No se ha encontrado el PDF físicamente en la carpeta:\n" + ruta);
+                mostrarAlerta(Alert.AlertType.WARNING, "Archivo no encontrado", "No se ha encontrado el PDF físicamente en la carpeta:\n" + ruta);
             }
         } catch (Exception ex) {
-            mostrarAlerta("Error", "No se pudo abrir el archivo. ¿Tienes un lector de PDFs instalado?");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo abrir el archivo. ¿Tienes un lector de PDFs instalado?");
             ex.printStackTrace();
         }
     }
+    private void eliminarFacturaSeleccionada() {
+        Factura seleccionada = tablaFacturas.getSelectionModel().getSelectedItem();
+        
+        if (seleccionada == null) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Atención", "Selecciona la factura que deseas eliminar.");
+            return;
+        }
 
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        // 1. Pedir confirmación
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Eliminar Factura");
+        confirmacion.setHeaderText("Vas a eliminar la Factura Nº: " + seleccionada.getNumeroFactura());
+        confirmacion.setContentText("Esta acción borrará el registro de la base de datos y eliminará el archivo PDF de tu ordenador.\n\n¿Estás completamente seguro?");
+        
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+        
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            
+            // 2. Intentar borrar el archivo físico PDF del ordenador
+            boolean archivoBorrado = true; // Asumimos true por si la ruta estaba vacía y no había archivo
+            String rutaPdf = seleccionada.getRutaPdf();
+            
+            if (rutaPdf != null && !rutaPdf.isEmpty()) {
+                File archivoFisico = new File(rutaPdf);
+                if (archivoFisico.exists()) {
+                    archivoBorrado = archivoFisico.delete();
+                    if (!archivoBorrado) {
+                        System.err.println("⚠️ No se pudo borrar el archivo físico: " + rutaPdf);
+                        // No cortamos la ejecución aquí. Si el archivo está bloqueado, al menos borramos el registro.
+                    }
+                }
+            }
+            
+            // 3. Borrar el registro de SQLite
+            boolean dbBorrada = FacturaDAO.eliminarFactura(seleccionada.getIdFactura());
+            
+            // 4. Actualizar la interfaz visual
+            if (dbBorrada) {
+                // Recargamos los datos para que desaparezca de la tabla
+                cargarDatos();
+                lblRuta.setText(""); 
+                
+                String mensaje = archivoBorrado ? 
+                    "La factura y su PDF han sido eliminados correctamente." : 
+                    "La factura se eliminó de la base de datos, pero el PDF físico no se pudo borrar (puede que lo tengas abierto).";
+                    
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Factura Eliminada", mensaje);
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al intentar eliminar la factura de la base de datos.");
+            }
+        }
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

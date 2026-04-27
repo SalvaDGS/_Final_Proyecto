@@ -1,45 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avtech.view.ClienteController">
-    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avtech.view.ClienteController">
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
     
-    <Label text="Gestión de Clientes" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Gestión de Clientes" />
     
     <TableView fx:id="tablaClientes" prefHeight="200" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colNombre" text="Nombre Calendar" prefWidth="180"/>
-            <TableColumn fx:id="colRazon" text="Razón Social" prefWidth="180"/>
-            <TableColumn fx:id="colNif" text="NIF/CIF" prefWidth="100"/>
-            <TableColumn fx:id="colTarifa" text="Tarifa (€)" prefWidth="80"/>
+            <TableColumn fx:id="colNombre" prefWidth="180" text="Nombre Calendar" />
+            <TableColumn fx:id="colRazon" prefWidth="180" text="Razón Social" />
+            <TableColumn fx:id="colNif" prefWidth="100" text="NIF/CIF" />
+            <TableColumn fx:id="colTarifa" prefWidth="80" text="Tarifa (€)" />
         </columns>
     </TableView>
 
     <Separator />
     
     <GridPane hgap="10" vgap="10">
-        <Label text="Nombre en Calendar:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtNombreCalendario" promptText="Ej: Empresa Audiovisual X" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="300"/>
+        <Label text="Nombre en Calendar:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="txtNombreCalendario" prefWidth="300" promptText="Ej: Empresa Audiovisual X" GridPane.columnIndex="1" GridPane.rowIndex="0" />
         
-        <Label text="Razón Social:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtRazonSocial" promptText="Ej: Empresa Audiovisual X S.L." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Razón Social:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="txtRazonSocial" promptText="Ej: Empresa Audiovisual X S.L." GridPane.columnIndex="1" GridPane.rowIndex="1" />
         
-        <Label text="NIF/CIF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtCifNif" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="NIF/CIF:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="txtCifNif" promptText="12345678A" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         
-        <Label text="Dirección:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtDireccion" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <TextField fx:id="txtDireccion" promptText="Calle, Número, CP, Ciudad" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <Label text="Tarifa Jornada (€):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtTarifa" promptText="Ej: 250.50" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <Label text="Tarifa Jornada (€):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextField fx:id="txtTarifa" promptText="Ej: 250.50" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      
     </GridPane>
     
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Eliminar Cliente" fx:id="btnEliminar" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
-        <Region HBox.hgrow="ALWAYS" /> <Button text="Limpiar / Nuevo" fx:id="btnLimpiar"/>
-        <Button text="Guardar Cliente" fx:id="btnGuardar" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button fx:id="btnEliminar" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Eliminar Cliente" />
+        <Region HBox.hgrow="ALWAYS" /> <Button fx:id="btnLimpiar" text="Limpiar / Nuevo" />
+        <Button fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Guardar Cliente" />
     </HBox>
 </VBox>

@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avtech.view.DashboardController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.avtech.view.DashboardController">
     <left>
         <VBox spacing="15" style="-fx-background-color: #f4f4f4; -fx-padding: 15;">
             
-            <Label text="AVTech" textFill="#555555">
+            <Label text="AVTech Invoice" textFill="#555555">
                 <font><Font name="System Bold" size="18.0" /></font>
             </Label>
             
-            <Button fx:id="btnGoogleLogin" text="Google Login" prefWidth="120" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button fx:id="btnGoogleLogin" prefWidth="120" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Google Login" />
             
             <Separator />
             
-            <Button fx:id="btnClientes" text="Clientes" prefWidth="120"/>
-            <Button fx:id="btnFacturas" text="Facturas" prefWidth="120"/>
+            <Button fx:id="btnClientes" prefWidth="120" text="Clientes" />
+            <Button fx:id="btnFacturas" prefWidth="120" text="Facturas" />
+            <Button fx:id="btnUsuario" prefWidth="120" text="Usuario" />
             
             <Separator />
             
-            <Label text="Período a Facturar:" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+            <Label style="-fx-font-size: 11px; -fx-text-fill: #666;" text="Período a Facturar:" />
             
             <ComboBox fx:id="comboMes" prefWidth="120">
                 <items>
@@ -46,13 +54,18 @@
             
             <ComboBox fx:id="comboAnio" prefWidth="120" />
             
-            <Button fx:id="btnEventos" text="Buscar Eventos" prefWidth="120" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button fx:id="btnEventos" prefWidth="120" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Buscar Eventos" />
+         <ImageView fitHeight="146.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true" translateX="-15.0" translateY="50.0">
+            <image>
+               <Image url="@../images/AVTECH_logo_texto.png" />
+            </image>
+         </ImageView>
             
         </VBox>
     </left>
     <center>
         <StackPane fx:id="contentArea">
-            <Label text="Bienvenido al Gestor de Facturación AVTech" />
+            <Label text="Bienvenido al Gestor de Facturación AVTech Invoice" />
         </StackPane>
     </center>
 </BorderPane>

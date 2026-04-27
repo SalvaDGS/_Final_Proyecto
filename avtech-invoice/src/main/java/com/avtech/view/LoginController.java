@@ -93,7 +93,6 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DashboardView.fxml"));
             Parent root = loader.load();
             
-            // Usamos cualquier botón para obtener la ventana actual
             Stage stage = (Stage) btnLogin.getScene().getWindow(); 
             
             Scene scene = new Scene(root);
