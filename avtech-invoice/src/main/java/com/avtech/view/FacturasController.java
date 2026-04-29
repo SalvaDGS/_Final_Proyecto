@@ -25,7 +25,6 @@ public class FacturasController {
     @FXML private TableColumn<Factura, Double> colTotal;
     
     @FXML private Button btnAbrirPdf;
-    // NUEVO BOTÓN
     @FXML private Button btnEliminarFactura;
     @FXML private Label lblRuta;
 

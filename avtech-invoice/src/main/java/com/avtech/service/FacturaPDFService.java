@@ -21,11 +21,19 @@ public class FacturaPDFService {
      */
     public static boolean generarPDF(Usuario emisor, String numFactura, String nombreCliente, 
                                      String cifCliente, String direccionCliente, String fecha, 
-                                     int cantidadEventos, double tarifa, double subtotal, String rutaDestino) {
+                                     int cantidadEventos, double tarifa, double subtotal, String nombreArchivo) {
         
-        // 1. Asegurarnos de que la carpeta "facturas" existe
-        File archivoPdf = new File(rutaDestino);
-        archivoPdf.getParentFile().mkdirs(); 
+        // 1. Construimos la ruta absoluta hacia el Home: ~/AVTech Invoice/facturas/
+        String rutaBase = System.getProperty("user.home") + File.separator + "AVTech Invoice" + File.separator + "facturas" + File.separator;
+        
+        // 2. Asegurarnos de que la carpeta "facturas" existe
+        File carpetaFacturas = new File(rutaBase);
+        if (!carpetaFacturas.exists()) {
+            carpetaFacturas.mkdirs(); 
+        }
+
+        // 3. Ruta final del archivo
+        File archivoPdf = new File(rutaBase + nombreArchivo);
 
         Document document = new Document();
         

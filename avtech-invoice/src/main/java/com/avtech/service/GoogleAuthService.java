@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 public class GoogleAuthService {
-    private static final String TOKENS_DIRECTORY_PATH = ".tokens";
+    private static final String TOKENS_DIRECTORY_PATH = System.getProperty("user.home") + 
+            java.io.File.separator + "AVTech Invoice" + 
+            java.io.File.separator + ".tokens";
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
     
     // AQUÍ AÑADIMOS LOS PERMISOS PARA LEER EL EMAIL Y EL PERFIL DE GOOGLE

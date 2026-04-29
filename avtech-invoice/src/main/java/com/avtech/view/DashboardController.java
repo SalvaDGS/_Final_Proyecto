@@ -12,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-
+import java.io.File; // Importante para File.separator
 
 public class DashboardController {
     // Vinculamos los botones que creamos en el DashboardView.fxml
@@ -221,22 +221,23 @@ public class DashboardController {
                                         
                                         if (resultado.isPresent() && resultado.get() == javafx.scene.control.ButtonType.OK) {
                                             
-                                        	// 5. Preparamos los datos
-                                        	java.time.LocalDateTime ahora = java.time.LocalDateTime.now();
-                                        	// Creamos un formato que saque el día, mes, año y la hora exacta
-                                        	java.time.format.DateTimeFormatter formatoNombre = java.time.format.DateTimeFormatter.ofPattern("dd_MM_yyyy_HHmmss");
+                                            // 5. Preparamos los datos
+                                            java.time.LocalDateTime ahora = java.time.LocalDateTime.now();
+                                            // Creamos un formato que saque el día, mes, año y la hora exacta
+                                            java.time.format.DateTimeFormatter formatoNombre = java.time.format.DateTimeFormatter.ofPattern("dd_MM_yyyy_HHmmss");
 
-                                        	
-                                        	String numFactura = "FAC-" + ahora.format(formatoNombre); 
+                                            String numFactura = "FAC-" + ahora.format(formatoNombre); 
 
-                                        	// Mantenemos la fecha estándar (YYYY-MM-DD) para guardarla limpia en la base de datos
-                                        	String fecha = java.time.LocalDate.now().toString(); 
+                                            // Mantenemos la fecha estándar (YYYY-MM-DD) para guardarla limpia en la base de datos
+                                            String fecha = java.time.LocalDate.now().toString(); 
 
-                                        	String rutaDestinoFisica = "facturas/" + numFactura + ".pdf";
+                                            String nombreArchivoPDF = numFactura + ".pdf";
+                                            // Construimos la ruta absoluta que se guardará en la BD para que el botón "Abrir PDF" lo encuentre
+                                            String rutaAbsolutaBD = System.getProperty("user.home") + File.separator + "AVTech Invoice" + File.separator + "facturas" + File.separator + nombreArchivoPDF;
                                             
                                             // 6. Guardamos la factura en la base de datos
                                             boolean guardadoOk = com.avtech.model.FacturaDAO.registrarFactura(
-                                                    numFactura, idCliente, fecha, numEventos, baseImponible, totalFinal, rutaDestinoFisica);
+                                                    numFactura, idCliente, fecha, numEventos, baseImponible, totalFinal, rutaAbsolutaBD);
                                             
                                             if (guardadoOk) {
                                                 System.out.println("✅ Factura guardada en BD.");
@@ -245,11 +246,11 @@ public class DashboardController {
                                                 String direccionCliente = com.avtech.model.ClienteDAO.obtenerDireccionPorNombre(clienteVinculado);
                                                 
                                                 boolean pdfGenerado = com.avtech.service.FacturaPDFService.generarPDF(
-                                                        usuario, numFactura, clienteVinculado, cifCliente, direccionCliente, fecha, numEventos, tarifaJornada, baseImponible, rutaDestinoFisica);
+                                                        usuario, numFactura, clienteVinculado, cifCliente, direccionCliente, fecha, numEventos, tarifaJornada, baseImponible, nombreArchivoPDF);
                                                 
                                                 if (pdfGenerado) {
                                                     mostrarAlerta(Alert.AlertType.INFORMATION,"Factura Registrada y PDF Creado", 
-                                                        "¡Éxito!\n\nSe ha guardado en la base de datos y se ha generado el archivo PDF:\n" + rutaDestinoFisica);
+                                                        "¡Éxito!\n\nSe ha guardado en la base de datos y se ha generado el archivo PDF:\n" + rutaAbsolutaBD);
                                                 } else {
                                                     mostrarAlerta(Alert.AlertType.WARNING,"Aviso", "La factura se guardó en BD, pero hubo un error creando el PDF.");
                                                 }

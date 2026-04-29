@@ -25,9 +25,10 @@
             
             <Separator />
             
+            <Button fx:id="btnUsuario" prefWidth="120" text="Usuario" />
             <Button fx:id="btnClientes" prefWidth="120" text="Clientes" />
             <Button fx:id="btnFacturas" prefWidth="120" text="Facturas" />
-            <Button fx:id="btnUsuario" prefWidth="120" text="Usuario" />
+            
             
             <Separator />
             

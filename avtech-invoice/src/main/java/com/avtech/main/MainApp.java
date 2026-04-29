@@ -16,24 +16,30 @@ public class MainApp extends Application {
 
     /**
      * El método init() se ejecuta ANTES de que se cargue la interfaz gráfica.
-     * Es el lugar perfecto para preparar la base de datos SQLite.
+     * Lo ejecutamos en un hilo secundario (Thread) para no bloquear el hilo principal
+     * y evitar que macOS cierre la aplicación por tardar más de 5 segundos en arrancar.
      */
     @Override
     public void init() throws Exception {
         System.out.println("Iniciando AVTech Invoice...");
-        System.out.println("Comprobando el estado de la base de datos local...");
         
-        // Llamamos a los métodos que crean las tablas si no existen
-        UsuarioDAO.crearTabla();
-        ClienteDAO.crearTabla();
-        FacturaDAO.crearTabla();
-        OpcionesDAO.crearTabla();
-        
-        System.out.println("✅ Base de datos lista para operar.");
+        // Ejecutamos la comprobación de la BD en segundo plano para reducir el tiempo de carga de la ventana inicial.
+        new Thread(() -> {
+            System.out.println("Comprobando el estado de la base de datos local...");
+            
+            // Llamamos a los métodos que crean las tablas si no existen
+            UsuarioDAO.crearTabla();
+            ClienteDAO.crearTabla();
+            FacturaDAO.crearTabla();
+            OpcionesDAO.crearTabla();
+            
+            System.out.println("✅ Base de datos lista para operar.");
+        }).start();
     }
 
     /**
      * El método start() construye y muestra la primera ventana (Login).
+     * Al haber liberado init(), ahora se ejecutará instantáneamente.
      */
     @Override
     public void start(Stage primaryStage) {
@@ -52,6 +58,7 @@ public class MainApp extends Application {
             primaryStage.centerOnScreen();
 
             primaryStage.show();
+            System.out.println("Pantalla de Login mostrada con éxito.");
 
         } catch (Exception e) {
             System.err.println("❌ Error al cargar la interfaz de Login: " + e.getMessage());
