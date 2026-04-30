@@ -13,6 +13,8 @@
 #
 #Ejecutar el .exe.
 #
+#La app se instala en Archivos de programas/AVTech Invoice
+#
 #Al iniciar la app se crea una carpeta AVTech Invoice en 
 #la carpeta del usuario (C:\Users\usuario) donde 
 #se ubican la base de datos y las carpeta para facturas y tokens.
